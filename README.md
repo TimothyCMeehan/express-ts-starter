@@ -111,7 +111,7 @@ describe("GET /api/users/profile", () => {
 
 ### 1️⃣ Clone the repository
 ```sh
-git clone https://github.com/YOUR_GITHUB_USERNAME/express-ts-starter.git
+git clone https://github.com/TimothyCMeehan/express-ts-starter.git
 cd express-ts-starter
 ```
 
