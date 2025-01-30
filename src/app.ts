@@ -7,7 +7,7 @@ import { container } from './config/inversify.config';
 import './controllers/HealthController';
 
 // Create a new InversifyExpressServer
-const server = new InversifyExpressServer(container);
+const server = new InversifyExpressServer(container, null, { rootPath: "/api/v1" });
 
 // Configure the server
 server.setConfig((app) => {

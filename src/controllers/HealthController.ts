@@ -4,7 +4,7 @@ import { controller, httpGet } from "inversify-express-utils";
 import { TYPES } from "../config/inversify.config";
 import { IHealthService } from "../interfaces/IHealthService";
 
-@controller("/api/health")
+@controller("/health")
 export class HealthController {
     private readonly healthService: IHealthService;
 
