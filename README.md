@@ -1,17 +1,32 @@
 # 🚀 Express TypeScript Starter
 
-A boilerplate for building scalable **Express.js APIs with TypeScript**. 
-Includes best practices like **Dependency Injection (Inversify), Middleware, Structured Error Handling, and Testing**.
+A **production-ready** boilerplate for building **AI-assisted, scalable, maintainable, and well-structured Express.js APIs** with **TypeScript**.  
+This template not only follows **industry best practices** including **Dependency Injection, Structured Error Handling, and Middleware-Driven Architecture;** but also provides a **tailored LLM Context**, so you're coding alongside an **AI-powered development companion** that helps you scale your API the right way.
 
-## 📌 Features
-✅ **Express.js + TypeScript**  
-✅ **Dependency Injection with Inversify**  
-✅ **Global Error Handling (like Spring Boot `@ControllerAdvice`)**  
-✅ **Middleware for Logging, Authentication, and Error Handling**  
-✅ **Environment Configuration (`.env`)**  
-✅ **Preconfigured Testing (Jest + Supertest)**  
+---
+## **✨ Key Features**
+✅ **TypeScript-Powered** → Enjoy type safety, autocompletion, and improved maintainability.  
+✅ **Scalable Architecture** → Follows an enterprise-grade structure (Controllers, Services, Middleware).  
+✅ **Dependency Injection (InversifyJS)** → Enables clean, modular, and testable code.  
+✅ **Preconfigured Testing Setup** → Supports **Jest** (unit tests) and **SuperTest** (integration tests).  
+✅ **Global Error Handling** → Ensures consistent and user-friendly API error responses, making debugging easier and improving reliability.  
+✅ **Environment Configuration** → Loads settings securely via `.env` files.  
+✅ **Middleware-Driven** → Includes Authentication, Logging, and Request Validation out of the box.  
+✅ **Ready for Deployment** → Configured with **Docker, PM2, and CI/CD-friendly practices**.  
+✅ **LLM Collaboration-Ready** → Includes **a tailored LLM Context** to help AI assistants give **accurate, project-aware suggestions**.
 
-> _This structure is inspired by proven best practices from enterprise backend frameworks, emphasizing separation of concerns (Controllers, Services, Utilities), centralized dependency management with Dependency Injection, and standardized error handling to ensure maintainability and scalability._
+--- 
+## **Tech Stack**    
+🔹 **Language**: TypeScript – Strongly typed, modern JavaScript  
+🔹 **Framework**: Express.js – Lightweight and flexible Node.js framework  
+🔹 **Dependency Injection & Routing**: Inversify + Inversify-Express-Utils – Enables modular, testable code with decorator-based DI and routing  
+🔹 **Configuration Management**: dotenv – Manages environment variables  
+🔹 **Error Handling**: Custom middleware for structured error responses  
+🔹 **Logging**: Winston + Morgan – Structured logging with JSON output and HTTP request logging  
+🔹 **Testing**: Jest & Supertest – Unit and integration testing for APIs  
+🔹 **LLM Integration**: Tailored LLM Context File for AI-assisted development  
+  
+---
 
 ## 📂 Project Structure
 
@@ -19,94 +34,30 @@ Includes best practices like **Dependency Injection (Inversify), Middleware, Str
 src/
 │── config/           # Dependency Injection, Env Configs
 │── controllers/      # Handles HTTP requests and delegates logic to services
-│── services/         # Contains business logic and interacts with models
 │── errors/           # Standardized error handling
-│── middlewares/      # Common middleware (Auth, Logging, Error Handling)
-│── routes/           # API routing setup
+│── interfaces/       # TypeScript interfaces for strong typing
+│── middlewares/      # Common middleware (Auth, Logging, Error Handling)  
+│── models/           # Defines data models and database schemas
+│── services/         # Contains business logic and interacts with models
+│── tests/            # Unit and integration tests
 │── utils/            # Reusable utility functions (Hashing, JWTs, etc.)
 │── app.ts            # Express App Configuration
 │── server.ts         # Server Entry Point
-│── index.ts          # Application Bootstrap (Loads DI Container)
 ```
 
 ### **How Each Component Fits In**
+- **Config (`src/config/`)** → Handles Dependency Injection bindings, environment configurations, and other global settings.
 - **Controllers (`src/controllers/`)** → Responsible for handling HTTP requests and sending responses. They delegate business logic to the corresponding service.
 - **Services (`src/services/`)** → Contains core application logic and interacts with database models. Helps keep controllers lightweight and focused.
+- **Models (`src/models/`)** → Define application data structures and database schemas.
+- **Interfaces (`src/interfaces/`)** → Define TypeScript types and contracts to enforce structure across the codebase.
 - **Utilities (`src/utils/`)** → Houses reusable helper functions such as encryption, validation, or formatting to prevent code duplication.
 - **Middleware (`src/middlewares/`)** → Functions that process requests before they reach controllers (e.g., authentication, logging, error handling).
 - **Error Handling (`src/errors/`)** → Custom error classes and a global error handler to standardize error responses.
-- **Routes (`src/routes/`)** → Defines Express routing for different parts of the application.
+- **Tests (`src/tests/`)** → Contains unit and integration tests to ensure reliability.
+- **App Entry (`app.ts` & `server.ts`)** → app.ts sets up the Express app, while server.ts starts the application.
 
 ---
-
-## ✅ Automated Testing
-
-This project includes a **fully integrated testing setup** to ensure code reliability.
-
-### **📌 Testing Frameworks**
-- **Jest** → For **unit tests** (isolated function and class testing).
-- **SuperTest** → For **integration tests** (testing API endpoints).
-
-### **📂 Test Structure**
-```
-tests/
-│── unit/           # Unit tests (e.g., services, utilities)
-│── integration/    # Integration tests (e.g., API endpoints)
-│── middlewares/    # Tests for middlewares
-```
-
-### **🚀 Running Tests**
-Run all tests:
-```sh
-npm test
-```
-
-Run **only unit tests**:
-```sh
-npm run test:unit
-```
-
-Run **only integration tests**:
-```sh
-npm run test:integration
-```
-
-### **🛠️ Writing New Tests**
-Whenever adding **new features**, the following tests should be written:
-1️⃣ **Unit Tests** → For business logic in `services/` and utility functions in `utils/`.  
-2️⃣ **Integration Tests** → To ensure API endpoints function correctly (`SuperTest`).  
-
-Example Jest test for a **unit test**:
-```typescript
-import { someFunction } from "../../src/utils/someUtil";
-
-describe("someFunction", () => {
-    it("should return the correct result", () => {
-        const result = someFunction("test");
-        expect(result).toBe("expectedResult");
-    });
-});
-```
-
-Example **SuperTest integration test**:
-```typescript
-import request from "supertest";
-import app from "../../src/app";
-
-describe("GET /api/users/profile", () => {
-    it("should return user profile if authenticated", async () => {
-        const res = await request(app)
-            .get("/api/users/profile")
-            .set("Cookie", "token=valid_jwt_token");
-
-        expect(res.status).toBe(200);
-        expect(res.body).toHaveProperty("email");
-    });
-});
-```
-
----
-
 ## 🚀 Getting Started
 
 ### 1️⃣ Clone the repository
@@ -137,6 +88,38 @@ npm test
 ```
 
 ---
+
+### **📌 Testing Frameworks**
+- **Jest** → For **unit tests** (isolated function and class testing).
+- **SuperTest** → For **integration tests** (testing API endpoints).
+
+### **📂 Test Structure**
+```
+tests/
+│── unit/           # Unit tests (e.g., services, utilities)
+│── integration/    # Integration tests (e.g., API endpoints)
+│── middlewares/    # Tests for middlewares
+```
+
+### **🚀 Running Tests**
+Run all tests:
+```sh
+npm test
+```
+
+Run **only unit tests**:
+```sh
+npm run test:unit
+```
+
+Run **only integration tests**:
+```sh
+npm run test:integration
+```
+
+---
+
+
 
 ## **📝 Using This Template with AI Assistants**
 
