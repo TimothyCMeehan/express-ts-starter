@@ -2,12 +2,37 @@ import { Request, Response, NextFunction } from 'express';
 import morgan from 'morgan';
 import logger from '../utils/logger';
 
-// Define Morgan logging format
-const stream = {
-    write: (message: string) => logger.info(message.trim()), // Remove extra line breaks from logs
-};
+/// Custom Morgan token for JSON output
+morgan.token('json', (req: Request, res: Response) => {
+    return JSON.stringify({
+        method: req.method,
+        url: req.url,
+        status: res.statusCode,
+        responseTime: `${res.getHeader('X-Response-Time') || '0'} ms`, // Ensure valid value
+        timestamp: new Date().toISOString(),
+    });
+});
 
-// Define request logging middleware using Morgan
-const requestLogger = morgan('combined', { stream });
+// Define Morgan logging format with JSON structure
+const requestLogger = morgan((tokens, req, res) => {
+    return JSON.stringify({
+        method: tokens.method(req, res),
+        url: tokens.url(req, res),
+        status: Number(tokens.status(req, res)), // Ensure it's a number
+        responseTime: `${tokens['response-time'](req, res)} ms`, // ✅ Correct way to access response-time
+        timestamp: new Date().toISOString(),
+    });
+}, {
+    stream: {
+        write: (message: string) => {
+            try {
+                logger.info(JSON.parse(message)); // Log structured JSON
+            } catch (error) {
+                logger.error("Failed to parse Morgan JSON log", { error });
+            }
+        }
+    }
+});
+
 
 export default requestLogger;

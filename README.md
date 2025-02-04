@@ -65,6 +65,98 @@ express-ts-starter/
 - **App Entry (`app.ts` & `server.ts`)** → app.ts sets up the Express app, while server.ts starts the application.
 
 ---
+## **📜 Logging**
+
+This project uses **Winston** for structured logging and **Morgan** for HTTP request logging. Logs are stored in JSON format and are automatically rotated to prevent excessive file growth.
+
+### **🔹 Logging Features**
+✅ **Structured JSON Logs** → Ensures consistency and makes logs machine-readable.  
+✅ **Daily Log Rotation** → Automatically archives old logs and compresses them.  
+✅ **Separate Error & Request Logs** → Errors are stored separately for better debugging.  
+✅ **Console & File Logging** → Logs are output to both the terminal (for development) and files (for persistence).  
+✅ **Performance Tracking** → HTTP request response times are logged.
+
+### **📂 Log File Locations**
+| Log Type  | File Path |
+|-----------|----------|
+| **All Logs**  | `logs/combined-YYYY-MM-DD.log` |
+| **Error Logs**  | `logs/error-YYYY-MM-DD.log` |
+| **Audit Logs**  | `logs/.audit.json` _(Tracks log rotation history)_ |
+
+### **📌 How It Works**
+- **Application Logs:** Stored in `logs/combined-YYYY-MM-DD.log`
+- **Error Logs:** Stored separately in `logs/error-YYYY-MM-DD.log`
+- **HTTP Request Logs:** Managed by Morgan and formatted as JSON
+- **Log Rotation:** Log files are rotated **daily**, compressed, and deleted after:
+  - **14 days** for general logs
+  - **30 days** for error logs
+  - **Max size of 10MB per file**
+  
+### **🚀 Logging in Action**
+- Logs when the server starts:
+  ```json
+  {"level":"info","message":"🚀 Server is running on PORT 5000","timestamp":"2025-02-04T15:15:20.545Z"}
+  ```
+- Logs an incoming HTTP request:
+  ```json
+  {
+    "level": "info",
+    "message": {
+      "method": "GET",
+      "url": "/api/v1/health/",
+      "status": 200,
+      "responseTime": "2.611 ms",
+      "timestamp": "2025-02-04T15:15:34.818Z"
+    },
+    "timestamp": "2025-02-04T15:15:34.818Z"
+  }
+  ```
+- Logs an error:
+  ```json
+  {
+    "level": "error",
+    "message": "Database connection failed",
+    "stack": "Error: Database connection failed at src/services/db.ts:22:15",
+    "timestamp": "2025-02-04T15:16:02.123Z"
+  }
+  ```
+### **🔧 Configuring Logging**
+Logging levels and configurations can be modified in:  
+	•	src/utils/logger.ts (Application logging setup)  
+	•	src/middlewares/logger.middleware.ts (HTTP request logging setup)  
+	•	**Log Level:** Configurable via .env → LOG_LEVEL=info | debug | warn | error  
+      
+
+---
+## **📌 Testing**
+- **Jest** → For **unit tests** (isolated function and class testing).
+- **SuperTest** → For **integration tests** (testing API endpoints).
+
+### **📂 Test Structure**
+```
+tests/
+│── unit/           # Unit tests (e.g., services, utilities)
+│── integration/    # Integration tests (e.g., API endpoints)
+│── middlewares/    # Tests for middlewares
+```
+
+### **🚀 Running Tests**
+Run all tests:
+```sh
+npm test
+```
+
+Run **only unit tests**:
+```sh
+npm run test:unit
+```
+
+Run **only integration tests**:
+```sh
+npm run test:integration
+```
+
+---
 ## 🚀 Getting Started
 
 ### 1️⃣ Clone the repository
@@ -95,38 +187,6 @@ npm test
 ```
 
 ---
-
-### **📌 Testing Frameworks**
-- **Jest** → For **unit tests** (isolated function and class testing).
-- **SuperTest** → For **integration tests** (testing API endpoints).
-
-### **📂 Test Structure**
-```
-tests/
-│── unit/           # Unit tests (e.g., services, utilities)
-│── integration/    # Integration tests (e.g., API endpoints)
-│── middlewares/    # Tests for middlewares
-```
-
-### **🚀 Running Tests**
-Run all tests:
-```sh
-npm test
-```
-
-Run **only unit tests**:
-```sh
-npm run test:unit
-```
-
-Run **only integration tests**:
-```sh
-npm run test:integration
-```
-
----
-
-
 
 ## **📝 Using This Template with AI Assistants**
 

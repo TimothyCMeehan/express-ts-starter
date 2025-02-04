@@ -26,7 +26,8 @@
     "inversify-express-utils": "^6.4.10",
     "morgan": "^1.10.0",
     "reflect-metadata": "^0.2.2",
-    "winston": "^3.17.0"
+    "winston": "^3.17.0",
+    "winston-daily-rotate-file": "^5.0.0"
   },
   "devDependencies": {
     "@types/cookie-parser": "^1.4.8",
