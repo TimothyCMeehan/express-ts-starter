@@ -31,18 +31,24 @@ This template not only follows **industry best practices** including **Dependenc
 ## 📂 Project Structure
 
 ```
-src/
-│── config/           # Dependency Injection, Env Configs
-│── controllers/      # Handles HTTP requests and delegates logic to services
-│── errors/           # Standardized error handling
-│── interfaces/       # TypeScript interfaces for strong typing
-│── middlewares/      # Common middleware (Auth, Logging, Error Handling)  
-│── models/           # Defines data models and database schemas
-│── services/         # Contains business logic and interacts with models
-│── tests/            # Unit and integration tests
-│── utils/            # Reusable utility functions (Hashing, JWTs, etc.)
-│── app.ts            # Express App Configuration
-│── server.ts         # Server Entry Point
+│── logs/                 # Logs directory (error.log, combined.log)
+│── src/                  # Source code
+│   │── config/           # Dependency Injection, Env Configs
+│   │── controllers/      # Handles HTTP requests and delegates logic to services
+│   │── errors/           # Standardized error handling
+│   │── interfaces/       # TypeScript interfaces for strong typing
+│   │── middlewares/      # Common middleware (Auth, Logging, Error Handling)  
+│   │── models/           # Defines data models and database schemas
+│   │── services/         # Contains business logic and interacts with models
+│   │── tests/            # Unit and integration tests
+│   │── utils/            # Reusable utility functions (Hashing, JWTs, etc.)
+│   │── app.ts            # Express App Configuration
+│   │── server.ts         # Server Entry Point
+│── .env.example          # Environment variables template
+│── .gitignore            # files and file types to be ignored by git
+│── package.json          # Dependencies & scripts
+│── README.md             # Documentation
+│── tsconfig.json         # TypeScript configuration
 ```
 
 ### **How Each Component Fits In**
