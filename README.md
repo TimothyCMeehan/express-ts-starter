@@ -31,6 +31,7 @@ This template not only follows **industry best practices** including **Dependenc
 ## 📂 Project Structure
 
 ```
+express-ts-starter/
 │── logs/                 # Logs directory (error.log, combined.log)
 │── src/                  # Source code
 │   │── config/           # Dependency Injection, Env Configs
