@@ -4,6 +4,7 @@ import { InversifyExpressServer } from 'inversify-express-utils';
 import express from "express";
 import { container } from './config/inversify.config';
 import requestLogger from './middlewares/logger.middleware';
+import errorHandler from "./middlewares/error.middleware";
 import logger from './utils/logger';
 
 //must import all controllers for them to be registered with the server
@@ -17,6 +18,10 @@ server.setConfig((app) => {
     app.use(express.json());
     // Add any other middleware or configurations here
     app.use(requestLogger);
+});
+
+server.setErrorConfig((app) => {
+    app.use(errorHandler); // Attach global error middleware
 });
 
 // Build and export the Express application
