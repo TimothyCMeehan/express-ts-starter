@@ -6,7 +6,6 @@ import { container } from './config/inversify.config';
 import requestLogger from './middlewares/logger.middleware';
 import errorHandler from "./middlewares/error.middleware";
 import HttpError from "./errors/HttpError";
-import logger from './utils/logger';
 
 //must import all controllers for them to be registered with the server
 import './controllers/HealthController';

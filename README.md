@@ -73,7 +73,9 @@ This project uses **Winston** for structured logging and **Morgan** for HTTP req
 ✅ **Structured JSON Logs** → Ensures consistency and makes logs machine-readable.  
 ✅ **Daily Log Rotation** → Automatically archives old logs and compresses them.  
 ✅ **Separate Error & Request Logs** → Errors are stored separately for better debugging.  
-✅ **Console & File Logging** → Logs are output to both the terminal (for development) and files (for persistence).  
+✅ **Console & File Logging:**  
+        •	Development/Production: Logs are sent to both the console and file transports.  
+  	    •	Testing: When APP_ENV is set to "test", file transports are disabled to keep log files free of test data. Logs are output only to the console, so you can verify logging either by inspecting console output or by mocking logger methods in your tests.  
 ✅ **Performance Tracking** → HTTP request response times are logged.
 
 ### **📂 Log File Locations**
