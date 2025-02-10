@@ -24,7 +24,7 @@ server.setConfig((app) => {
 server.setErrorConfig((app) => {
     // Fallback route for unmatched endpoints
     app.use((req, res, next) => {
-        next(new HttpError(404, "Not Found"));
+        next(new HttpError(404, "Endpoint Not Found"));
     });
     app.use(errorHandler); // Attach global error middleware
 });

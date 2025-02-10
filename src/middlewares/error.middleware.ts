@@ -7,27 +7,21 @@ import HttpError from "../errors/HttpError";
 const errorHandler = (err: any, req: Request, res: Response, next: NextFunction): void => {
     const status = err instanceof HttpError ? err.statusCode : 500;
     const message = err.message || "Internal Server Error";
-    const details = err instanceof HttpError && err.details ? err.details : undefined;
+    
+    // Log error with structured JSON   
+    logger.error({
+        message,
+        stack: err.stack,
+        method: req.method,
+        url: req.url,
+        status,
+        details: err instanceof HttpError ? err.details : undefined,
+        timestamp: new Date().toISOString()
+    });
 
-    // Log error with structured JSON
-    // Only log errors if not in test environment
-    if (process.env.APP_ENV !== 'test' && status !== 404) {
-        logger.error({
-            message,
-            stack: err.stack,
-            method: req.method,
-            url: req.url,
-            status,
-            details,
-            timestamp: new Date().toISOString()
-        });
-    }
-
+    // Send a safe response to the client
     res.status(status).json({
-        error: {
-            message,
-            ...(details && { details }) // Include details if available
-        }
+        error: { status, message }
     });
 };
 

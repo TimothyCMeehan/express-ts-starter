@@ -65,6 +65,41 @@ express-ts-starter/
 - **App Entry (`app.ts` & `server.ts`)** → app.ts sets up the Express app, while server.ts starts the application.
 
 ---
+## **🚨 Error Handling**  
+  
+This project uses a global error handling middleware to maintain a **secure, reliable, and developer-friendly API.**  
+### **🔹 Error Handling Features**
+✅ **Uniform Error Responses** → Every error follows the same JSON format.   
+✅ **Secure API Responses** → No stack traces or internal details are exposed to clients.  
+✅ **Internal Logging** → Full error details (including stack trace) are logged for debugging.  
+✅ **Fallback for Uncaught Errors** If an error isn’t explicitly thrown using our custom class, it defaults to a 500 Internal Server Error.  
+
+### **Custom HttpError Class**
+We provide a custom HttpError class (src/errors/HttpError.ts) that developers can use to throw structured errors:  
+#### **How It Works**
+Instead of just throwing a generic error, use the HttpError class:
+```
+throw new HttpError(404, "Resource Not Found", { resource: "User" });
+```
+This ensures the middleware has all the necessary fields to log the error properly and return a safe response to the client.
+### **Summary of Fields Included in Error**
+| Field     | Description                                                                 | Included in Client Response | Logged Internally |
+|-----------|-----------------------------------------------------------------------------|-----------------------------|--------------------|
+| `status`  | HTTP status code indicating the result of the request (e.g., 404, 500).     | ✅Yes                         | ✅Yes                |
+| `message` | Brief description of the error encountered.                                 | ✅Yes                         | ✅Yes                |
+| `details` | Additional information or context about the error, if available.            | ❌No                          | ✅Yes                |
+| `stack`   | Stack trace providing details about where the error occurred in the code.   | ❌No                          | ✅Yes                |
+| `method`  | HTTP method used for the request (e.g., GET, POST).                         | ❌No                          | ✅Yes                |
+| `url`     | URL of the request that resulted in the error.                              | ❌No                          | ✅Yes                |
+| `timestamp` | The date and time when the error occurred.                                | ❌No                          | ✅Yes                |
+### **How It All Works Together**
+1.	**Throwing an Error** – Use HttpError to signal expected failures in your controllers/services.
+2.	**Catching & Logging** – The middleware logs full details (stack trace, method, URL, etc.).
+3.	**Returning a Safe Response** – Only status and message are sent to the client, keeping everything secure.
+
+By following this approach, our API remains debuggable for developers while ensuring clients never see sensitive internal details.
+
+---
 ## **📜 Logging**
 
 This project uses **Winston** for structured logging and **Morgan** for HTTP request logging. Logs are stored in JSON format and are automatically rotated to prevent excessive file growth.
@@ -74,8 +109,8 @@ This project uses **Winston** for structured logging and **Morgan** for HTTP req
 ✅ **Daily Log Rotation** → Automatically archives old logs and compresses them.  
 ✅ **Separate Error & Request Logs** → Errors are stored separately for better debugging.  
 ✅ **Console & File Logging:**  
-        •	Development/Production: Logs are sent to both the console and file transports.  
-  	    •	Testing: When APP_ENV is set to "test", file transports are disabled to keep log files free of test data. Logs are output only to the console, so you can verify logging either by inspecting console output or by mocking logger methods in your tests.  
+  •	Development/Production: Logs are sent to both the console and file transports.  
+  •	Testing: When APP_ENV is set to "test", file transports are disabled to keep log files free of test data. Logs are output only to the console, so you can verify logging either by inspecting console output or by mocking logger methods in your tests.  
 ✅ **Performance Tracking** → HTTP request response times are logged.
 
 ### **📂 Log File Locations**
