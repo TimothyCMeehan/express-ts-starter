@@ -10,6 +10,7 @@ morgan.token('json', (req: Request, res: Response) => {
         status: res.statusCode,
         responseTime: `${res.getHeader('X-Response-Time') || '0'} ms`, // Ensure valid value
         timestamp: new Date().toISOString(),
+        env: process.env.APP_ENV,
     });
 });
 
@@ -21,6 +22,7 @@ const requestLogger = morgan((tokens, req, res) => {
         status: Number(tokens.status(req, res)), // Ensure it's a number
         responseTime: `${tokens['response-time'](req, res)} ms`, // ✅ Correct way to access response-time
         timestamp: new Date().toISOString(),
+        env: process.env.APP_ENV,
     });
 }, {
     stream: {

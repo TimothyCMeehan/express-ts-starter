@@ -8,5 +8,5 @@ dotenv.config();
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
-    logger.info(`🚀 Server is running on PORT ${PORT}`);
+    logger.info(`🚀 Server is running on PORT ${PORT} in the ${process.env.APP_ENV} environment`);
 });

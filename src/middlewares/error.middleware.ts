@@ -10,15 +10,18 @@ const errorHandler = (err: any, req: Request, res: Response, next: NextFunction)
     const details = err instanceof HttpError && err.details ? err.details : undefined;
 
     // Log error with structured JSON
-    logger.error({
-        message,
-        stack: err.stack,
-        method: req.method,
-        url: req.url,
-        status,
-        details,
-        timestamp: new Date().toISOString()
-    });
+    // Only log errors if not in test environment
+    if (process.env.APP_ENV !== 'test' && status !== 404) {
+        logger.error({
+            message,
+            stack: err.stack,
+            method: req.method,
+            url: req.url,
+            status,
+            details,
+            timestamp: new Date().toISOString()
+        });
+    }
 
     res.status(status).json({
         error: {

@@ -5,6 +5,7 @@ import express from "express";
 import { container } from './config/inversify.config';
 import requestLogger from './middlewares/logger.middleware';
 import errorHandler from "./middlewares/error.middleware";
+import HttpError from "./errors/HttpError";
 import logger from './utils/logger';
 
 //must import all controllers for them to be registered with the server
@@ -17,10 +18,16 @@ const server = new InversifyExpressServer(container, null, { rootPath: "/api/v1"
 server.setConfig((app) => {
     app.use(express.json());
     // Add any other middleware or configurations here
-    app.use(requestLogger);
+    if (process.env.APP_ENV !== 'test') {
+        app.use(requestLogger);
+    }
 });
 
 server.setErrorConfig((app) => {
+    // Fallback route for unmatched endpoints
+    app.use((req, res, next) => {
+        next(new HttpError(404, "Not Found"));
+    });
     app.use(errorHandler); // Attach global error middleware
 });
 
