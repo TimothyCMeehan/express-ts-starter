@@ -30,16 +30,20 @@ const errorRotateTransport = new winston.transports.DailyRotateFile({
     maxFiles: '30d', // Keep error logs for 30 days
 });
 
+// Always include Console transport
+const transportsArray: winston.transport[] = [new winston.transports.Console()];
+
+// Only add file transports when NOT in test mode
+if (process.env.APP_ENV !== 'test') {
+  transportsArray.push(combinedRotateTransport, errorRotateTransport);
+}
+
 
 // Create Winston logger instance with log rotation
 const logger = winston.createLogger({
     level: process.env.LOG_LEVEL || 'info',
     format: logFormat,
-    transports: [
-        new winston.transports.Console(), // Console logging
-        combinedRotateTransport, // Log rotation for all logs
-        errorRotateTransport // Log rotation for errors
-    ],
+    transports: transportsArray,
 });
 
 // Export the logger

@@ -18,9 +18,8 @@ const server = new InversifyExpressServer(container, null, { rootPath: "/api/v1"
 server.setConfig((app) => {
     app.use(express.json());
     // Add any other middleware or configurations here
-    if (process.env.APP_ENV !== 'test') {
-        app.use(requestLogger);
-    }
+    app.use(requestLogger);
+    
 });
 
 server.setErrorConfig((app) => {
