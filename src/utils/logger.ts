@@ -1,9 +1,6 @@
 import winston from 'winston';
 import 'winston-daily-rotate-file';
-import dotenv from 'dotenv';
-
-// Load environment variables
-dotenv.config();
+import config from "../config/EnvConfig"
 
 // Define log format
 const logFormat = winston.format.combine(
@@ -41,7 +38,7 @@ if (process.env.APP_ENV !== 'test') {
 
 // Create Winston logger instance with log rotation
 const logger = winston.createLogger({
-    level: process.env.LOG_LEVEL || 'info',
+    level: config.LOG_LEVEL || 'info',
     format: logFormat,
     transports: transportsArray,
 });

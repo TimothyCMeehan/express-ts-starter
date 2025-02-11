@@ -1,5 +1,6 @@
 import { injectable } from "inversify";
 import { IHealthService } from "../interfaces/IHealthService";
+import config from "../config/EnvConfig"
 
 @injectable()
 export class HealthService implements IHealthService{
@@ -8,7 +9,7 @@ export class HealthService implements IHealthService{
             status: "ok",
             timestamp: new Date().toISOString(),
             uptime: process.uptime(),
-            environment: process.env.APP_ENV || "undefined",
+            environment: config.APP_ENV || "undefined",
         };
     }
 }
