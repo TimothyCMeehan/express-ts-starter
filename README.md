@@ -20,7 +20,7 @@ This template not only follows **industry best practices** including **Dependenc
 🔹 **Language**: TypeScript – Strongly typed, modern JavaScript  
 🔹 **Framework**: Express.js – Lightweight and flexible Node.js framework  
 🔹 **Dependency Injection & Routing**: Inversify + Inversify-Express-Utils – Enables modular, testable code with decorator-based DI and routing  
-🔹 **Configuration Management**: Centralized config object abstracts dotenv usage.
+🔹 **Configuration Management**: Centralized config object abstracts dotenv usage.  
 🔹 **Error Handling**: Custom middleware for structured error responses  
 🔹 **Logging**: Winston + Morgan – Structured logging with JSON output and HTTP request logging  
 🔹 **Testing**: Jest & Supertest – Unit and integration testing for APIs  
