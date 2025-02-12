@@ -10,7 +10,7 @@ This template not only follows **industry best practices** including **Dependenc
 ✅ **Dependency Injection (InversifyJS)** → Enables clean, modular, and testable code.  
 ✅ **Preconfigured Testing Setup** → Supports **Jest** (unit tests) and **SuperTest** (integration tests).  
 ✅ **Global Error Handling** → Ensures consistent and user-friendly API error responses, making debugging easier and improving reliability.  
-✅ **Environment Configuration** → Loads settings securely via `.env` files.  
+✅ **Environment Configuration** → Loads settings securely via `.env` files and exposes them through a centralized config object for consistent use across the project.   
 ✅ **Middleware-Driven** → Includes Authentication, Logging, and Request Validation out of the box.  
 ✅ **Ready for Deployment** → Configured with **Docker, PM2, and CI/CD-friendly practices**.  
 ✅ **LLM Collaboration-Ready** → Includes **a tailored LLM Context** to help AI assistants give **accurate, project-aware suggestions**.
@@ -20,7 +20,7 @@ This template not only follows **industry best practices** including **Dependenc
 🔹 **Language**: TypeScript – Strongly typed, modern JavaScript  
 🔹 **Framework**: Express.js – Lightweight and flexible Node.js framework  
 🔹 **Dependency Injection & Routing**: Inversify + Inversify-Express-Utils – Enables modular, testable code with decorator-based DI and routing  
-🔹 **Configuration Management**: dotenv – Manages environment variables  
+🔹 **Configuration Management**: Centralized config object abstracts dotenv usage.
 🔹 **Error Handling**: Custom middleware for structured error responses  
 🔹 **Logging**: Winston + Morgan – Structured logging with JSON output and HTTP request logging  
 🔹 **Testing**: Jest & Supertest – Unit and integration testing for APIs  
@@ -63,6 +63,60 @@ express-ts-starter/
 - **Error Handling (`src/errors/`)** → Custom error classes and a global error handler to standardize error responses.
 - **Tests (`src/tests/`)** → Contains unit and integration tests to ensure reliability.
 - **App Entry (`app.ts` & `server.ts`)** → app.ts sets up the Express app, while server.ts starts the application.
+
+---
+## **⚙️ Configuration Management**
+
+This project leverages a centralized configuration management system that loads environment variables from your .env file and exposes them through a unified config object. This approach streamlines access to settings across the project and ensures consistency and type safety.
+
+### **🔹 Configuration Features**
+✅ Centralized Access → All configuration values are consolidated in a single config object.  
+✅ Type Safety → Utilizes TypeScript interfaces (AppConfig) to enforce correct types.  
+✅ Consistency → Provides a single source of truth for all environment variables.  
+✅ Extendability → Easily add new environment variables and manage multiple environments if needed.
+
+### **📂 Configuration File Locations**
+|File	                    |Description                          |
+|-------------------------|-------------------------------------|
+|`src/config/EnvConfig.ts`|	Loads environment variables using dotenv and exports the unified config object.|
+|`src/config/AppConfig.ts`|	Defines the TypeScript interface for the configuration object, ensuring type safety.|
+
+### **🔧 How It Works**  
+
+**•	Loading Variables:** The dotenv package reads your .env file and loads environment variables.  
+**•	Config Object Creation:** In src/config/EnvConfig.ts, these variables are mapped to properties of a config object that adheres to the AppConfig interface.  
+**•	Global Usage:** Import the config object in any part of your project to access configuration values without directly referencing process.env.  
+
+### **🚀 Adding a New Environment Variable**
+1.	**Update the .env File:**  
+Add your new variable, for example:  
+```.env
+NEW_VARIABLE=your_value_here
+```
+2.  **Update the TypeScript Interface:**  
+Reflect the change in src/config/AppConfig.ts:
+```
+export interface AppConfig {
+    PORT: number;
+    JWT_SECRET: string;
+    DATABASE_URL: string;
+    LOG_LEVEL: string;
+    APP_ENV: string;
+    NEW_VARIABLE: string; // New variable added here
+}
+```
+3.  **Update the Config Object:**  
+Modify src/config/EnvConfig.ts to include the new variable along with default value:  
+```
+const config: AppConfig = {
+  PORT: process.env.PORT ? Number(process.env.PORT) : 5000,
+  JWT_SECRET: process.env.JWT_SECRET || 'default_jwt_secret',
+  DATABASE_URL: process.env.DATABASE_URL || '',
+  LOG_LEVEL: process.env.LOG_LEVEL || 'info',
+  APP_ENV: process.env.APP_ENV || 'dev',
+  NEW_VARIABLE: process.env.NEW_VARIABLE || 'default_value', // New variable added here
+};
+```
 
 ---
 ## **🚨 Error Handling**  
