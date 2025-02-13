@@ -4,7 +4,7 @@
   "description": "A boilerplate for building scalable **Express.js APIs with TypeScript**.   Includes best practices like **Dependency Injection (Inversify), Middleware, Structured Error Handling, and Testing**.",
   "main": "index.js",
   "scripts": {
-    "dev": "cross-env APP_ENV=development ts-node-dev --respawn --transpile-only src/server.ts",
+    "dev": "cross-env APP_ENV=development ts-node-dev --respawn --transpile-only src/main.ts",
     "test": "cross-env APP_ENV=test jest",
     "test:unit": "cross-env APP_ENV=test jest --testPathPattern=tests/unit",
     "test:integration": "cross-env APP_ENV=test jest --testPathPattern=tests/integration"
