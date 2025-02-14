@@ -12,7 +12,7 @@ import HttpError from "./errors/HttpError";
 import './controllers/HealthController';
 
 
-class  ExpressApp implements IAppServer {
+export class  ExpressApp implements IAppServer {
     private server: any;
     private expressApp: express.Application;
 
@@ -50,5 +50,3 @@ class  ExpressApp implements IAppServer {
         
     }
 }
-
-export default new ExpressApp();
