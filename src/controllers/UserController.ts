@@ -16,6 +16,9 @@ export class UserController {
     @httpPut("/")
     public signup(req: Request, res: Response) {
 
+        const { username, email, password } = req.body;
+
+        this.userService.signup(username, email, password);
     }
 
 }

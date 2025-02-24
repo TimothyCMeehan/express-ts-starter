@@ -3,9 +3,10 @@ import { IUser } from '../interfaces/IUser';
 import { UserModel } from '../models/mongoDB/userModel';
 
 export class MongoUserRepository implements IUserRepository {
-  async createUser(user: IUser): Promise<IUser> {
+  async createUser(username: string, email:string, password: string): Promise<IUser> {
     // Mongoose returns the created document
-    const newUser = await UserModel.create(user);
+    const newUser = await UserModel.create({username, email, password});
+
     return newUser.toObject(); // converting to a plain JS object
   }
 

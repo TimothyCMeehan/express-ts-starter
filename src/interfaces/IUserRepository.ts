@@ -1,7 +1,7 @@
 import { IUser } from './IUser';
 
 export interface IUserRepository {
-  createUser(user: IUser): Promise<IUser>;
+  createUser(username: string, email: string, password: string): Promise<IUser>;
   getUserByUsername(username: string): Promise<IUser | null>;
   getUserByEmail(email: string): Promise<IUser | null>;
   getUserById(id: string): Promise<IUser | null>;
